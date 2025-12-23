@@ -1,14 +1,31 @@
 import { useState } from "react";
 import "./App.css";
+import { useFormState } from "react-dom";
+
+
+import Counter from "./Counter";
 
 function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <Counter />
+      <button onClick={() => setCount(count + 1)}>
+        Count: {count}
+      </button>
+    </div>
+  );
+}
+
+
+
+function App() {    //creates a component named App??
   const [input, setInput] = useState("");
 
   const [todos, setTodos] = useState([
-    { id: 1, value: "Hi" },
-    { id: 2, value: "Bye" },
+    
   ]);
-
   const addTodo = () => {
     if (input.trim() !== "") {
       setTodos([...todos, { id: Date.now(), value: input }]);
@@ -39,3 +56,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,39 +1,38 @@
-import { useState } from "react";
-import "./App.css";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [input, setInput] = useState("");
-
-  const [todos, setTodos] = useState([
-    
-  ]);
-
-  const addTodo = () => {
-    if (input.trim() !== "") {
-      setTodos([...todos, { id: Date.now(), value: input }]);
-      setInput("");
+  const [quote, setQuote] = useState([]);
+  const [characterName, setCharacterNAmne]=useState(``)
+  
+   
+    const handlesubmit = async (event)=>{
+      console.log(event)
+      if(event.key === `Enter`){
+      try{
+        const response = await fetch(`https://yurippe.vercel.app/api/quotes?character=${characterName}&random=1`)
+      const result = await response.json()
+        setQuote(result)
+      }catch (e){
+        console.log(e)
+      }
     }
-  };
+  }
+  
 
+
+  console.log(characterName )
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-
-      <br />
-      <br />
-
-      <button onClick={addTodo}>Add</button>
-
-      <ul style={{ listStylePosition: "inside", padding: 0 }}>
-        {todos.map((todoItem) => (
-          <li key={todoItem.id}>{todoItem.value}</li>
-        ))}
-      </ul>
-    </div>
+  <>
+  <input value={characterName} placeholder="Enter character name" onChange={(e)=>setCharacterNAmne(e.target.value)} onKeyUp={handlesubmit}/>
+    <ul>
+      {quote.map(quo => (
+        <div>
+        <li key={quo._id}>{quo.character}</li>
+        <li key={quo._id}>{quo.quote}</li>
+        </div>
+      ))}
+    </ul>
+    </>
   );
 }
 
